@@ -55,6 +55,9 @@ def encrypt(key, data, *, nonce=None, tags=True, output="base64"):
 		elif not do_return_nonce and not tags:
 			return b"-|$" + ciphertext #- for NEITHER
 
+	else:
+		raise ValueError('Invalid output mode')
+
 
 def decrypt(key, data, *, nonce=None, tags=True, output="str"):
 	if type(data) == str: #NTC or TC format 
@@ -105,3 +108,12 @@ def decrypt(key, data, *, nonce=None, tags=True, output="str"):
 		return pad(decrypted, unpad=True).decode("utf-8")
 	else:
 		return pad(decrypted, unpad=True)
+
+
+if __name__ == "__main__":
+	while True:
+		i = input("[E]ncrypt/[D]ecrypt: ")[0].lower()
+		if i == "e":
+			print(encrypt(input("Key: "), input("Plaintext: ")))
+		elif i == "d":
+			print(decrypt(input("Key: "), input("Ciphertext: ")))
